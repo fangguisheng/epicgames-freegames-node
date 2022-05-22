@@ -43,7 +43,7 @@ export default class PuppetPurchase extends PuppetBase {
        */
       // eslint-disable-next-line consistent-return
       const initPurchase = async (): Promise<void> => {
-        this.L.info({ purchaseUrl }, 'Loading purchase page');
+        this.L.info({ purchaseUrl }, '正在加载购买页面');
         await page.goto(purchaseUrl, { waitUntil: 'networkidle0' });
         await page.waitForNetworkIdle({ idleTime: 2000 });
         try {
@@ -105,7 +105,7 @@ export default class PuppetPurchase extends PuppetBase {
             page.waitForTimeout(3 * 60 * 60 * 1000).then(() => 'timeout'),
           ]);
           if (interactionResult === 'timeout') {
-            this.L.info('Reloading purchase page...'); // Reload page after 3 hour timeout
+            this.L.info('重新加载购买页面...'); // 超时3小时后重新加载页面
             return initPurchase();
           }
           await page.closePortal();
@@ -129,7 +129,7 @@ export default class PuppetPurchase extends PuppetBase {
         this.L.warn(err);
         this.L.error(
           { errorImage, errorHtml },
-          'Encountered an error during browser automation. Saved a screenshot and page HTML for debugging purposes.'
+          '在浏览器自动化过程中遇到错误。保存了屏幕截图和页面HTML以用于调试。'
         );
         if (!config.noHumanErrorHelp) success = await this.sendErrorManualHelpNotification(page);
         await page.close();
@@ -139,7 +139,7 @@ export default class PuppetPurchase extends PuppetBase {
   }
 
   private async sendErrorManualHelpNotification(page: Page): Promise<boolean> {
-    this.L.info('Asking a human for help...');
+    this.L.info('需要协助处理');
     try {
       await this.openPortalAndNotify(page, NotificationReason.PURCHASE_ERROR);
       await page.waitForFunction(() => document.location.hash.includes('/purchase/receipt'), {
@@ -149,7 +149,7 @@ export default class PuppetPurchase extends PuppetBase {
       await this.teardownPage(page);
       return true;
     } catch (err) {
-      this.L.error('Encountered an error when asking a human for help');
+      this.L.error('协助处理时遇到错误');
       this.L.error(err);
       return false;
     }

@@ -38,9 +38,9 @@ export async function redeemAccount(account: AccountConfig, index: number): Prom
     const offers = await freeGames.getAllFreeGames(); // Get purchasable offers
     for (let i = 0; i < offers.length; i += 1) {
       // Async for-loop as running purchases in parallel may break
-      L.info(`Purchasing ${offers[i].productName}`);
+      L.info(`购买 ${offers[i].productName}`);
       await purchasePuppeteer.purchaseShort(offers[i].offerNamespace, offers[i].offerId);
-      L.info(`Done purchasing ${offers[i].productName}`);
+      L.info(`完成购买 ${offers[i].productName}`);
     }
     L.debug('Closing browser');
     await browser.close();
