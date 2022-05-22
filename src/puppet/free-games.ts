@@ -329,12 +329,12 @@ export default class PuppetFreeGames extends PuppetBase {
     }
     this.L.info(
       { availableGames: validFreeGames.map((game) => game.productName) },
-      'Available free games'
+      '当前免费游戏'
     );
     const purchasableGames = await this.getPurchasableFreeGames(validFreeGames);
     this.L.info(
       { purchasableGames: purchasableGames.map((game) => game.productName) },
-      'Unpurchased free games'
+      '未购买的免费游戏'
     );
     if (this.page) await this.page.close();
     return purchasableGames;

@@ -28,11 +28,11 @@ export default class PuppetLogin extends PuppetBase {
     const page = await this.setupPage();
     try {
       if (await this.refreshLogin(page)) {
-        this.L.info('Successfully refreshed login');
+        this.L.info('已成功刷新登录');
       } else {
-        this.L.debug('Could not refresh credentials. Logging in fresh.');
+        this.L.debug('无法刷新凭据，重新登录。');
         await this.login(page);
-        this.L.info('Successfully logged in fresh');
+        this.L.info('已成功登录刷新');
       }
     } catch (err) {
       await this.handlePageError(err, page);
