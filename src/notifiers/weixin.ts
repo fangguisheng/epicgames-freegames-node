@@ -35,7 +35,7 @@ url: ${encodedUrl}`,
     L.trace({ apiUrl: this.config.apiUrl, jsonPayload }, 'Sending json payload');
 
     try {
-      await got.get(`${this.config.apiUrl}`, {
+      await got.post(`${this.config.apiUrl}`, {
         json: jsonPayload,
         responseType: 'text',
       });

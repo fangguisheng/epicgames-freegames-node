@@ -80,7 +80,7 @@ export default class PuppetBase {
       });
       this.L.error(
         { errorFile },
-        'Encountered an error during browser automation. Saved a screenshot for debugging purposes.'
+        '在浏览器自动化过程中遇到错误。保存屏幕截图以进行调试。'
       );
       await page.close();
     }

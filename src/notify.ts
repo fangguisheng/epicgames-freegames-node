@@ -39,7 +39,7 @@ export async function sendNotification(
         accountEmail,
         reason,
       },
-      `No notifiers configured globally, or for the account. This log is all you'll get`
+      `没有全局或针对帐户配置通知程序。你只会得到这份日志`
     );
     return;
   }
@@ -72,7 +72,7 @@ export async function sendNotification(
 }
 
 export async function testNotifiers(): Promise<void> {
-  L.info('Testing all configured notifiers');
+  L.info('测试所有配置的通知程序');
   const browser = await safeLaunchBrowser(L);
   const page = await safeNewPage(browser, L);
   L.trace(getDevtoolsUrl(page));
@@ -85,15 +85,15 @@ export async function testNotifiers(): Promise<void> {
     sendNotification(url, acct.email, NotificationReason.TEST)
   );
   await Promise.all(accountEmails);
-  L.info('Test notifications sent. Waiting for test page interaction...');
+  L.info('已发送测试通知。正在等待测试页交互。。。');
   try {
     await page.waitForSelector('#complete', {
       visible: true,
       timeout: config.notificationTimeoutHours * 60 * 60 * 1000,
     });
-    L.info('Notification test complete');
+    L.info('通知测试完成');
   } catch (err) {
-    L.warn('Test notification timed out. Continuing...');
+    L.warn('测试通知超时。正在继续。。。');
   }
   await browser.close();
 }

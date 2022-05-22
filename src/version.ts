@@ -14,7 +14,7 @@ export async function checkForUpdate(): Promise<void> {
     );
     return;
   }
-  L.debug({ PROJECT_NAME, BRANCH, COMMIT_SHA }, 'Performing version check');
+  L.debug({ PROJECT_NAME, BRANCH, COMMIT_SHA }, '正在执行版本检查');
   try {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const resp = await got.get<any>(
@@ -27,17 +27,17 @@ export async function checkForUpdate(): Promise<void> {
     L.trace({ latestSha }, 'Response from GitHub API');
     if (COMMIT_SHA !== latestSha) {
       L.warn(
-        `A newer version of ${PROJECT_NAME} is available! \`docker pull\` this image to update.`
+        `${PROJECT_NAME} 有可用更新，请拉取 \`docker pull\` 进行升级。`
       );
     }
   } catch (err) {
-    L.warn('Version check API call failed');
+    L.warn('更新检查API调用失败');
     L.debug(err);
   }
 }
 
 export function logVersionOnError(): void {
   if (COMMIT_SHA || BRANCH || DISTRO) {
-    L.warn({ COMMIT_SHA, BRANCH, DISTRO }, 'Current version');
+    L.warn({ COMMIT_SHA, BRANCH, DISTRO }, '当前版本');
   }
 }

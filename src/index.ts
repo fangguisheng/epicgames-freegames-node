@@ -16,7 +16,7 @@ export async function redeemAccount(account: AccountConfig, index: number): Prom
   await new Promise((resolve) => {
     setTimeout(resolve, waitTime);
   });
-  L.info(`Checking free games for ${account.email} `);
+  L.info(`当前账号 ${account.email} `);
   try {
     // const requestClient = newCookieJar(account.email);
     const browser = await safeLaunchBrowser(L);
