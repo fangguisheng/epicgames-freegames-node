@@ -253,7 +253,7 @@ export default class AccountManager {
     if (action === 'nav') return;
     this.L.debug('Captcha detected');
     const url = await page.openPortal();
-    this.L.info({ url }, 'Go to this URL and do something');
+    this.L.info({ url }, '转到此URL并执行某些操作');
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     new LocalNotifier(null as any).sendNotification(url);
     await page.waitForSelector(`input[name='code-input-0']`, {

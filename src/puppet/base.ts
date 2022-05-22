@@ -92,7 +92,7 @@ export default class PuppetBase {
     if (config.webPortalConfig?.localtunnel) {
       url = await getLocaltunnelUrl(url);
     }
-    this.L.info({ url }, 'Go to this URL and do something');
+    this.L.info({ url }, '转到此URL并执行某些操作');
     await sendNotification(url, this.email, reason);
   }
 }

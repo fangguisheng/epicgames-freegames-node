@@ -1,7 +1,7 @@
 export enum NotificationReason {
-  LOGIN = 'LOGIN',
-  PURCHASE = 'PURCHASE',
-  CREATE_ACCOUNT = 'CREATE_ACCOUNT',
-  TEST = 'TEST',
-  PURCHASE_ERROR = 'PURCHASE ERROR',
+  LOGIN = '登录',
+  PURCHASE = '购买',
+  CREATE_ACCOUNT = '创建帐户',
+  TEST = '测试通知',
+  PURCHASE_ERROR = '购买错误',
 }
