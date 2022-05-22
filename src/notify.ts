@@ -1,5 +1,6 @@
 import {
   AppriseNotifier,
+  WeixinNotifier,
   DiscordNotifier,
   EmailNotifier,
   LocalNotifier,
@@ -14,6 +15,7 @@ import {
   NotificationType,
   TelegramConfig,
   AppriseConfig,
+  WeixinConfig,
   PushoverConfig,
   GotifyConfig,
 } from './common/config';
@@ -55,6 +57,8 @@ export async function sendNotification(
         return new TelegramNotifier(notifierConfig as TelegramConfig);
       case NotificationType.APPRISE:
         return new AppriseNotifier(notifierConfig as AppriseConfig);
+        case NotificationType.WEIXIN:
+        return new WeixinNotifier(notifierConfig as WeixinConfig);
       case NotificationType.GOTIFY:
         return new GotifyNotifier(notifierConfig as GotifyConfig);
       default:

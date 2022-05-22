@@ -30,6 +30,7 @@ export enum NotificationType {
   DISCORD = 'discord',
   PUSHOVER = 'pushover',
   APPRISE = 'apprise',
+  WEIXIN = 'weixin',
   LOCAL = 'local',
   GOTIFY = 'gotify',
 }
@@ -79,6 +80,40 @@ export class AppriseConfig extends NotifierConfig {
    * More details: https://github.com/caronc/apprise-api#stateless-solution
    * @example mailto://user:pass@gmail.com
    * @env APPRISE_URLS
+   */
+  @IsString()
+  @IsOptional()
+  urls?: string;
+
+  /**
+   * @ignore
+   */
+  constructor() {
+    super(NotificationType.APPRISE);
+  }
+}
+
+/**
+ * Sends a notification to many services via [Apprise API](https://github.com/caronc/apprise-api).
+ * Supports 70+ different [notification services](https://github.com/caronc/apprise/wiki#notification-services).
+ */
+ export class WeixinConfig extends NotifierConfig {
+  /**
+   * The base URL of your Apprise instance
+   * @example http://localhost:80
+   * @env WEIXIN_PHP_API
+   */
+  @IsUrl({
+    require_tld: false,
+  })
+  apiUrl: string;
+
+  /**
+   * One or more URLs identifying where the notification should be sent to.
+   * If this field isn't specified then it automatically assumes the settings.APPRISE_STATELESS_URLS in your Apprise instance.
+   * More details: https://github.com/caronc/apprise-api#stateless-solution
+   * @example mailto://user:pass@gmail.com
+   * @env WEIXIN_PHP_URLS
    */
   @IsString()
   @IsOptional()
@@ -341,6 +376,7 @@ export type AnyNotifierConfig =
   | LocalConfig
   | TelegramConfig
   | AppriseConfig
+  | WeixinConfig
   | PushoverConfig
   | GotifyConfig;
 
@@ -354,6 +390,7 @@ const notifierSubtypes: {
   { value: LocalConfig, name: NotificationType.LOCAL },
   { value: TelegramConfig, name: NotificationType.TELEGRAM },
   { value: AppriseConfig, name: NotificationType.APPRISE },
+  { value: WeixinConfig, name: NotificationType.WEIXIN },
   { value: GotifyConfig, name: NotificationType.GOTIFY },
 ];
 
@@ -877,6 +914,20 @@ export class AppConfig {
         this.notifiers.push(apprise);
       }
     }
+
+        // Use environment variables to fill weixin notification config if present
+        const { WEIXIN_API, WEIXIN_URLS } = process.env;
+        if (WEIXIN_API) {
+          const weixin = new WeixinConfig();
+          weixin.apiUrl = WEIXIN_API;
+          weixin.urls = WEIXIN_URLS;
+          if (!this.notifiers) {
+            this.notifiers = [];
+          }
+          if (!this.notifiers.some((notifConfig) => notifConfig instanceof WeixinConfig)) {
+            this.notifiers.push(weixin);
+          }
+        }
 
     // Use environment variables to fill gotify notification config if present
     const { GOTIFY_API_URL, GOTIFY_TOKEN, GOTIFY_PRIORITY } = process.env;

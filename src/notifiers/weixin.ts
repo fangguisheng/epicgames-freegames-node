@@ -1,13 +1,13 @@
 import got from 'got';
 import logger from '../common/logger';
 import { NotifierService } from './notifier-service';
-import { AppriseConfig } from '../common/config';
+import { WeixinConfig } from '../common/config';
 import { NotificationReason } from '../interfaces/notification-reason';
 
 export class WeixinNotifier extends NotifierService {
-  private config: AppriseConfig;
+  private config: WeixinConfig;
 
-  constructor(config: AppriseConfig) {
+  constructor(config: WeixinConfig) {
     super();
 
     this.config = config;
@@ -23,7 +23,7 @@ export class WeixinNotifier extends NotifierService {
     const encodedUrl = encodeURI(url);
     const jsonPayload = {
       urls: this.config.urls,
-      title: 'epicgames-freegames-node',
+      title: 'EPIC领取游戏通知',
       body: `epicgames-freegames-node needs a captcha solved.
 reason: ${reason}
 account: ${account}
