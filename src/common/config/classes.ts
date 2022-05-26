@@ -99,9 +99,9 @@ export class AppriseConfig extends NotifierConfig {
  */
  export class WeixinConfig extends NotifierConfig {
   /**
-   * The base URL of your Apprise instance
+   * The base URL of your Weixin instance
    * @example http://localhost:80
-   * @env WEIXIN_PHP_API
+   * @env WEIXIN_API
    */
   @IsUrl({
     require_tld: false,
@@ -113,7 +113,7 @@ export class AppriseConfig extends NotifierConfig {
    * If this field isn't specified then it automatically assumes the settings.APPRISE_STATELESS_URLS in your Apprise instance.
    * More details: https://github.com/caronc/apprise-api#stateless-solution
    * @example mailto://user:pass@gmail.com
-   * @env WEIXIN_PHP_URLS
+   * @env WEIXIN_URLS
    */
   @IsString()
   @IsOptional()
@@ -123,7 +123,7 @@ export class AppriseConfig extends NotifierConfig {
    * @ignore
    */
   constructor() {
-    super(NotificationType.APPRISE);
+    super(NotificationType.WEIXIN);
   }
 }
 
@@ -376,7 +376,6 @@ export type AnyNotifierConfig =
   | LocalConfig
   | TelegramConfig
   | AppriseConfig
-  | WeixinConfig
   | PushoverConfig
   | GotifyConfig;
 
@@ -390,7 +389,6 @@ const notifierSubtypes: {
   { value: LocalConfig, name: NotificationType.LOCAL },
   { value: TelegramConfig, name: NotificationType.TELEGRAM },
   { value: AppriseConfig, name: NotificationType.APPRISE },
-  { value: WeixinConfig, name: NotificationType.WEIXIN },
   { value: GotifyConfig, name: NotificationType.GOTIFY },
 ];
 
@@ -499,11 +497,14 @@ export enum SearchStrategy {
    */
   WEEKLY = 'weekly',
   /**
-   * Search the entire Epic Games site for any game with a 100% discount. This includes the `weekly` games, plus any uncommon non-weekly temporarily free games.
+   * Search the entire Epic Games site for any game with a 100% discount.
+   * This includes the `weekly` games, plus any uncommon non-weekly temporarily free games.
+   * Occasionally excludes the weekly promotion if it's a bundle.
    */
   PROMOTION = 'promotion',
   /**
-   * Combines the results from `weekly` and `promotion`. Should continue if at least one of the APIs works.
+   * Combines the results from `weekly` and `promotion`.
+   * Continues if at least one of the APIs works.
    */
   ALL = 'all',
 }
@@ -520,11 +521,9 @@ export enum LogLevel {
 /**
  * @example ```jsonc
  * {
- *   "searchStrategy": "promotion",
  *   "runOnStartup": true,
  *   "cronSchedule": "5 16 * * *",
  *   "logLevel": "info",
- *   "hcaptchaAccessibilityUrl": "https://accounts.hcaptcha.com/verify_email/96e9d77b-21eb-463d-9a21-75237fb27b6c",
  *   "webPortalConfig": {
  *     "baseUrl": "https://epic.exmaple.com",
  *   },
@@ -582,13 +581,13 @@ export class AppConfig {
 
   /**
    * The search criteria for finding free games. Either the weekly promotion, and free promotion, or all free products.
-   * @example all
-   * @default promotion
+   * @example weekly
+   * @default all
    * @env SEARCH_STRATEGY
    */
   @IsOptional()
   @IsEnum(SearchStrategy)
-  searchStrategy = process.env.SEARCH_STRATEGY || SearchStrategy.PROMOTION;
+  searchStrategy = process.env.SEARCH_STRATEGY || SearchStrategy.ALL;
 
   /**
    * If true, the process will run on startup in addition to the scheduled time.
@@ -914,20 +913,6 @@ export class AppConfig {
         this.notifiers.push(apprise);
       }
     }
-
-        // Use environment variables to fill weixin notification config if present
-        const { WEIXIN_API, WEIXIN_URLS } = process.env;
-        if (WEIXIN_API) {
-          const weixin = new WeixinConfig();
-          weixin.apiUrl = WEIXIN_API;
-          weixin.urls = WEIXIN_URLS;
-          if (!this.notifiers) {
-            this.notifiers = [];
-          }
-          if (!this.notifiers.some((notifConfig) => notifConfig instanceof WeixinConfig)) {
-            this.notifiers.push(weixin);
-          }
-        }
 
     // Use environment variables to fill gotify notification config if present
     const { GOTIFY_API_URL, GOTIFY_TOKEN, GOTIFY_PRIORITY } = process.env;
