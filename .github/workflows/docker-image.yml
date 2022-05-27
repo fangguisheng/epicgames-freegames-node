@@ -47,7 +47,7 @@ jobs:
           push: true
           tags: |
             fangguisheng/epicgames-freegames:latest
-            fangguisheng/epicgames-freegames:$(date +'%Y-%m-%dT%H:%M:%S')
+            fangguisheng/epicgames-freegames:${{ date +'%Y-%m-%dT%H:%M:%S' }}
             ghcr.io/fangguisheng/epicgames-freegames-node:latest
             ghcr.io/fangguisheng/epicgames-freegames-node:${{ github.sha }}
           platforms: linux/amd64,linux/arm64
