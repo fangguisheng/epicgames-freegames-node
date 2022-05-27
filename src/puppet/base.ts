@@ -31,7 +31,7 @@ export default class PuppetBase {
     this.browser = props.browser;
     this.email = props.email;
     this.L = logger.child({
-      user: this.email,
+      账号: this.email,
     });
   }
 
