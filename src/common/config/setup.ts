@@ -46,16 +46,16 @@ const configPath = configPaths.find((p) => fs.existsSync(p));
 // eslint-disable-next-line import/no-mutable-exports
 let config: AppConfig;
 if (!configPath) {
-  L.warn('No config file detected');
+  L.warn('未检测到配置文件');
   const newConfigPath = path.resolve(CONFIG_DIR, `${CONFIG_FILE_NAME}.json`);
   config = new AppConfig();
   try {
     L.debug({ newConfigPath }, 'Creating new config file');
     fs.writeJSONSync(newConfigPath, instanceToPlain(config), { spaces: 2 });
-    L.info({ newConfigPath }, 'Wrote new default config file');
+    L.info({ newConfigPath }, '编写了新的默认配置文件');
   } catch (err) {
     L.debug(err);
-    L.info('Not allowed to create new config. Continuing...');
+    L.info('不允许创建新配置。继续...');
   }
 } else {
   L.debug({ configPath });

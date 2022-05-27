@@ -76,7 +76,7 @@ export const getHcaptchaCookies = async (): Promise<Protocol.Network.Cookie[]> =
       } catch (err) {
         L.debug(err);
         L.warn(
-          'No get cookie response recieved, continuing without hCaptcha accessibility cookies'
+          '未收到 get cookie响应，在没有hCaptcha可访问性cookie的情况下继续'
         );
       }
       L.trace(`Saving new cookies`);
@@ -90,7 +90,7 @@ export const getHcaptchaCookies = async (): Promise<Protocol.Network.Cookie[]> =
     } catch (err) {
       L.warn(err);
       L.warn(
-        'Setting the hCaptcha accessibility cookies encountered an error. Continuing without them...'
+        '设置hCaptcha可访问性Cookie时遇到错误。在没有他们的情况下继续...'
       );
       if (browser) await browser.close();
       return [];

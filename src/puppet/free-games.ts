@@ -318,18 +318,18 @@ export default class PuppetFreeGames extends PuppetBase {
     } else if (config.searchStrategy === SearchStrategy.PROMOTION) {
       validFreeGames = await this.getCatalogFreeGames();
     } else {
-      this.L.info('searchStrategy is `all`: searching for weekly and promotional games');
+      this.L.info('搜索策略配置为 `all`: 搜索每周和促销游戏');
       let weeklyFreeGames: OfferInfo[] | null = null;
       let catalogFreeGames: OfferInfo[] | null = null;
       try {
         weeklyFreeGames = await this.getWeeklyFreeGames();
       } catch (err) {
-        this.L.warn(err, 'Failed to lookup weekly free games');
+        this.L.warn(err, '无法查找每周免费游戏');
       }
       try {
         catalogFreeGames = await this.getCatalogFreeGames();
       } catch (err) {
-        this.L.warn(err, 'Failed to lookup catalog free games');
+        this.L.warn(err, '无法查找免费目录游戏');
       }
       if (weeklyFreeGames === null && catalogFreeGames === null) {
         throw new Error('Both free game API lookups failed');
@@ -342,13 +342,13 @@ export default class PuppetFreeGames extends PuppetBase {
       );
     }
     this.L.info(
-      { availableGames: validFreeGames.map((game) => game.productName) },
+      { 可用游戏: validFreeGames.map((game) => game.productName) },
       '当前免费游戏'
     );
     const purchasableGames = await this.getPurchasableFreeGames(validFreeGames);
     this.L.info(
-      { purchasableGames: purchasableGames.map((game) => game.productName) },
-      '未购买的免费游戏'
+      { 可领取的游戏: purchasableGames.map((game) => game.productName) },
+      '未领取的免费游戏'
     );
     if (this.page) await this.page.close();
     return purchasableGames;

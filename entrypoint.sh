@@ -11,20 +11,20 @@ RUN_ON_STARTUP=$(cat $TEMP_CONFIG | jq -r ".runOnStartup")
 RUN_ONCE=$(cat $TEMP_CONFIG | jq -r ".runOnce")
 CRON_SCHEDULE=$(cat $TEMP_CONFIG | jq -r ".cronSchedule")
 
-echo "Setting timezone: $TZ"
+echo "设置时区: $TZ"
 ln -snf /usr/share/zoneinfo/$TZ /etc/localtime
 echo "$TZ" > /etc/timezone
 
 # If runOnStartup is set, run it once before setting up the schedule
-echo "Run on startup: ${RUN_ON_STARTUP}"
+echo "启动时运行: ${RUN_ON_STARTUP}"
 if [ "$RUN_ON_STARTUP" = "true" ]; then
     node /usr/app/dist/src/index.js
 fi
 
 # If runOnce is not set, schedule the process
-echo "Run once: ${RUN_ONCE}"
+echo "运行一次后退出: ${RUN_ONCE}"
 if [ "$RUN_ONCE" = "false" ]; then
-    echo "Setting cron schedule as ${CRON_SCHEDULE}"
+    echo "设置 cron计划 为 ${CRON_SCHEDULE}"
     if [ "$DISTRO" = "alpine" ]; then
         # Add the command to the crontab
         echo "${CRON_SCHEDULE} cd /usr/app && node /usr/app/dist/src/index.js" | crontab -
@@ -39,4 +39,4 @@ if [ "$RUN_ONCE" = "false" ]; then
         cron -f
     fi
 fi
-echo "Exiting..."
+echo "正在退出..."

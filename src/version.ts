@@ -6,7 +6,7 @@ const PROJECT_NAME = 'epicgames-freegames-node';
 const { COMMIT_SHA, BRANCH, DISTRO } = process.env;
 
 export async function checkForUpdate(): Promise<void> {
-  L.info({ COMMIT_SHA, BRANCH, DISTRO }, `Started ${PROJECT_NAME}`);
+  L.info({ COMMIT_SHA, BRANCH, DISTRO }, `启动 ${PROJECT_NAME}`);
   if (!(COMMIT_SHA && BRANCH) || config.skipVersionCheck) {
     L.debug(
       { COMMIT_SHA, BRANCH, skipVersionCheck: config.skipVersionCheck },

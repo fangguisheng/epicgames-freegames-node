@@ -139,7 +139,7 @@ export default class AccountManager {
   }
 
   public async deleteAccount(): Promise<void> {
-    this.L.info({ email: this.email }, 'Deleting account');
+    this.L.info({ email: this.email }, '正在删除帐户');
 
     const hCaptchaCookies = await getHcaptchaCookies();
     const userCookies = await getCookiesRaw(this.email);

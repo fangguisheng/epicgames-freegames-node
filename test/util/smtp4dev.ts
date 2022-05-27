@@ -111,7 +111,7 @@ export default class Smtp4Dev {
           new Date(m.receivedDate) > startTime && m.to.toLowerCase().includes(lowerSearchString)
       );
       if (foundMessage) {
-        L.info('Found message', { lowerSearchString });
+        L.info('找到的邮件', { lowerSearchString });
         return foundMessage;
       }
       L.trace('No message found, waiting...');

@@ -157,7 +157,7 @@ const retryFunction = async <T>(
   }
   L.warn(
     { attempts, MAX_ATTEMPTS },
-    `${outputName} did not work after ${TIMEOUT}ms. Trying again.`
+    `${outputName} 在 ${TIMEOUT}ms 后不工作，正在重试.`
   );
   return retryFunction(f, L, outputName, attempts + 1);
 };

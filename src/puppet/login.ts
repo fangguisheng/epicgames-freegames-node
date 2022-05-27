@@ -159,7 +159,7 @@ export default class PuppetLogin extends PuppetBase {
     } else if (result === 'nav') {
       this.L.debug('Redirected to store page, login successful');
     } else if (typeof result === 'string') {
-      this.L.warn(`Login returned error: ${result}`);
+      this.L.warn(`登录时返回错误: ${result}`);
       await this.login(page);
     } else {
       await this.handleMfa(page, result as ElementHandle<HTMLInputElement>);
@@ -178,7 +178,7 @@ export default class PuppetLogin extends PuppetBase {
       await this.handleMfa(page, result as ElementHandle<HTMLInputElement>);
     } else if (result !== 'nav') {
       // result is an error message
-      this.L.warn(`Login returned error: ${result}`);
+      this.L.warn(`登录时返回错误: ${result}`);
       await this.login(page);
     }
     // result is 'nav', success

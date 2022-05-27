@@ -124,13 +124,13 @@ export function newCookieJar(username: string): Got {
       cookieData = fs.readFileSync(cookieFilename, 'utf8');
       const cookieTest = JSON.parse(cookieData);
       if (Array.isArray(cookieTest)) {
-        L.info(`Converting ${cookieFilename} cookie format`);
+        L.info(`转换 ${cookieFilename} cookie格式`);
         const tcfsCookies = editThisCookieToToughCookieFileStore(cookieTest);
         fs.writeFileSync(cookieFilename, JSON.stringify(tcfsCookies), 'utf8');
       }
     } catch (err) {
       L.warn(err);
-      L.warn({ cookieData }, `Could not parse ${cookieFilename}, deleting it`);
+      L.warn({ cookieData }, `无法分析 ${cookieFilename}, 请删除它`);
       fs.rmSync(cookieFilename, { force: true });
     }
   }
