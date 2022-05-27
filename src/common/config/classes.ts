@@ -512,12 +512,12 @@ export enum SearchStrategy {
 }
 
 export enum LogLevel {
-  SILENT = 'silent',
-  ERROR = 'error',
-  WARN = 'warn',
-  INFO = 'info',
-  DEBUG = 'debug',
-  TRACE = 'trace',
+  静默 = 'silent',
+  错误 = 'error',
+  警告 = 'warn',
+  提示 = 'info',
+  调试 = 'debug',
+  跟踪 = 'trace',
 }
 
 /**
@@ -640,7 +640,7 @@ export class AppConfig {
    */
   @IsOptional()
   @IsEnum(LogLevel)
-  logLevel = process.env.LOG_LEVEL || LogLevel.INFO;
+  logLevel = process.env.LOG_LEVEL || LogLevel.提示;
 
   /**
    * A unique hCaptcha accessibility URL recieved in your email after signing up here: https://dashboard.hcaptcha.com/signup?type=accessibility

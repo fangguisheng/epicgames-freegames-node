@@ -11,12 +11,12 @@ import { safeLaunchBrowser } from './common/puppeteer';
 import PuppetFreeGames from './puppet/free-games';
 
 export async function redeemAccount(account: AccountConfig, index: number): Promise<void> {
-  const L = logger.child({ 账号: account.email });
+  const L = logger.child({ 执行账号: account.email });
   const waitTime = index * config.intervalTime * 1000;
   await new Promise((resolve) => {
     setTimeout(resolve, waitTime);
   });
-  L.info(`当前账号 ${account.email} `);
+  L.info(`准备登录 ${account.email} `);
   try {
     // const requestClient = newCookieJar(account.email);
     const browser = await safeLaunchBrowser(L);
