@@ -101,7 +101,7 @@ export class AppriseConfig extends NotifierConfig {
   /**
    * The base URL of your Weixin instance
    * @example http://localhost:80
-   * @env WEIXIN_API
+   * @env WEIXIN_PHP_API
    */
   @IsUrl({
     require_tld: false,
@@ -113,7 +113,7 @@ export class AppriseConfig extends NotifierConfig {
    * If this field isn't specified then it automatically assumes the settings.APPRISE_STATELESS_URLS in your Apprise instance.
    * More details: https://github.com/caronc/apprise-api#stateless-solution
    * @example mailto://user:pass@gmail.com
-   * @env WEIXIN_URLS
+   * @env WEIXIN_PHP_URLS
    */
   @IsString()
   @IsOptional()
@@ -376,6 +376,7 @@ export type AnyNotifierConfig =
   | LocalConfig
   | TelegramConfig
   | AppriseConfig
+  | WeixinConfig
   | PushoverConfig
   | GotifyConfig;
 
@@ -389,6 +390,7 @@ const notifierSubtypes: {
   { value: LocalConfig, name: NotificationType.LOCAL },
   { value: TelegramConfig, name: NotificationType.TELEGRAM },
   { value: AppriseConfig, name: NotificationType.APPRISE },
+  { value: WeixinConfig, name: NotificationType.WEIXIN },
   { value: GotifyConfig, name: NotificationType.GOTIFY },
 ];
 
@@ -911,6 +913,20 @@ export class AppConfig {
       }
       if (!this.notifiers.some((notifConfig) => notifConfig instanceof AppriseConfig)) {
         this.notifiers.push(apprise);
+      }
+    }
+
+   // Use environment variables to fill weixin notification config if present
+    const { WEIXIN_API, WEIXIN_URLS } = process.env;
+    if (WEIXIN_API) {
+      const weixin = new WeixinConfig();
+      weixin.apiUrl = WEIXIN_API;
+      weixin.urls = WEIXIN_URLS;
+      if (!this.notifiers) {
+        this.notifiers = [];
+      }
+      if (!this.notifiers.some((notifConfig) => notifConfig instanceof WeixinConfig)) {
+        this.notifiers.push(weixin);
       }
     }
 
