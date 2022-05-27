@@ -11,7 +11,7 @@ import { safeLaunchBrowser } from './common/puppeteer';
 import PuppetFreeGames from './puppet/free-games';
 
 export async function redeemAccount(account: AccountConfig, index: number): Promise<void> {
-  const L = logger.child({ user: account.email });
+  const L = logger.child({ 账号: account.email });
   const waitTime = index * config.intervalTime * 1000;
   await new Promise((resolve) => {
     setTimeout(resolve, waitTime);

@@ -18,7 +18,7 @@ export class TelegramNotifier extends NotifierService {
    */
   async sendNotification(url: string, account: string, reason: NotificationReason): Promise<void> {
     const L = logger.child({ user: account, reason });
-    L.trace('Sending telegram notification');
+    L.trace('发送通知到telegram');
 
     const encodedUrl = encodeURI(url);
     const jsonPayload = {

@@ -15,7 +15,7 @@ export class DiscordNotifier extends NotifierService {
 
   async sendNotification(url: string, account: string, reason: NotificationReason): Promise<void> {
     const L = logger.child({ user: account, reason });
-    L.trace('Sending discord notification');
+    L.trace('发送通知到Discord');
 
     let mentions = '';
     if (this.config.mentionedUsers) {

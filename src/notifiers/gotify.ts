@@ -14,7 +14,7 @@ export class GotifyNotifier extends NotifierService {
 
   async sendNotification(url: string, account: string, reason: NotificationReason): Promise<void> {
     const L = logger.child({ user: account, reason });
-    L.trace('Sending Gotify notification');
+    L.trace('发送通知到Gotify');
     const jsonPayload = {
       title: `Epic Games free games needs a Captcha solved`,
       /**

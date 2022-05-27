@@ -14,7 +14,7 @@ export class PushoverNotifier extends NotifierService {
 
   async sendNotification(url: string, account: string, reason: NotificationReason): Promise<void> {
     const L = logger.child({ user: account, reason });
-    L.trace('Sending pushover notification');
+    L.trace('发送通知到pushover');
 
     try {
       await got.post('https://api.pushover.net/1/messages.json', {
